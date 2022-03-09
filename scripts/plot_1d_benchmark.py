@@ -22,14 +22,14 @@ def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
             sort_idx = np.argsort(task.x.squeeze())
             x, y = task.x.squeeze()[sort_idx], task.y.squeeze()[sort_idx]
             ax.plot(x, y)
-            ax.grid()
-            ax.set_title(type(benchmark).__name__)
+        ax.set_title(type(benchmark).__name__)
+        ax.grid()
     fig.tight_layout()
     plt.show()
 
 
 if __name__ == "__main__":
-    n_task = 25
+    n_task = 6
     n_datapoints_per_task = 128
     benchmarks = []
     benchmarks.append(
