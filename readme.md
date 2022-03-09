@@ -5,6 +5,8 @@ This is a NumPy implementation of several simple collections of benchmark tasks 
 
 ![](./plots/bm.png)
 
+Some benchmarks were adapted from Volpp et al., "Bayesian Context Aggregation for Neural Processes", ICLR 2021, cf. https://github.com/boschresearch/bayesian-context-aggregation
+
 ## Getting Started
 Clone this repository and run
 ```
@@ -47,5 +49,5 @@ For a non-parametric benchmark, e.g., consisting of samples of a Gaussian proces
 This code is still in development and thus not thoroughly tested. Features may change in the future. It was tested with the packages listed in ```./setup.cfg```.
 
 ## License
-This code is licensed under the MIT license and is free to use by anyone without any restrictions.
+This code is licensed under the AGPL-3.0 license and is free to use by anyone without any restrictions.
 
