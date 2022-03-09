@@ -1,4 +1,7 @@
-from metalearning_benchmarks.affine1d_benchmark import Affine1D
+from metalearning_benchmarks.base_benchmark import (
+    MetaLearningBenchmark,
+    MetaLearningTask,
+)
 from metalearning_benchmarks.gp_benchmark import (
     Matern52GPBenchmark,
     RBFGPBenchmark,
