@@ -6,7 +6,7 @@ import numpy as np
 
 class MetaLearningTask(ABC):
     """
-    This is a simple container for two arrays and a parameter vector,
+    This is a simple container for two arrays and (not necessarily) a parameter vector,
 
     x : (n_datapoints_per_task, d_x)
     y : (n_datapoints_per_task, d_y),
