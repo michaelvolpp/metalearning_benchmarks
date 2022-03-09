@@ -250,6 +250,9 @@ def perform_noise_test(all_benchmarks, normalize):
         task_noise_seed_1_noise_1 = bm_instance_seed_1_noise_1.get_task_by_index(
             task_index=0
         )
+        task_noise_seed_1_noise_1_2 = bm_instance_seed_1_noise_1.get_task_by_index(
+            task_index=0
+        )
         task_noise_seed_1_noise_2 = bm_instance_seed_1_noise_2.get_task_by_index(
             task_index=0
         )
@@ -269,3 +272,5 @@ def perform_noise_test(all_benchmarks, normalize):
         assert (task_noise_seed_2_noise_1.y != task_noise_seed_1_noise_2.y).any()
         # check that different seed_noise with same noise level generate different data
         assert (task_noise_seed_1_noise_1.y != task_noise_seed_2_noise_1.y).any()
+        # check that retrieving the same task twice yields the same data
+        assert (task_noise_seed_1_noise_1.y == task_noise_seed_1_noise_1_2.y).all()

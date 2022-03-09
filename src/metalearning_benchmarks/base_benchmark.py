@@ -88,6 +88,7 @@ class MetaLearningBenchmark(ABC):
         self.seed_x = seed_x
         self.seed_task = seed_task
         self.seed_noise = seed_noise
+        self._noise_vectors = [None] * self.n_task
 
         if self.seed_x is not None:
             self.rng_x = np.random.RandomState(seed=self.seed_x)
@@ -151,13 +152,28 @@ class MetaLearningBenchmark(ABC):
     def is_nonparametric(self) -> bool:
         return self.d_param is None
 
-    def _add_noise_to_task(self, task: MetaLearningTask) -> MetaLearningTask:
-        noisy_y = task.y + self.output_noise * self.rng_noise.randn(*task.y.shape)
+    def _generate_noise_vector_for_task(
+        self, task: MetaLearningTask, task_index: int
+    ) -> np.ndarray:
+        if self._noise_vectors[task_index] is None:
+            self._noise_vectors[task_index] = self.output_noise * self.rng_noise.randn(
+                *task.y.shape
+            )
+
+        return self._noise_vectors[task_index]
+
+    def _add_noise_to_task(
+        self, task: MetaLearningTask, task_index: int
+    ) -> MetaLearningTask:
+        noisy_y = task.y + self._generate_noise_vector_for_task(
+            task=task, task_index=task_index
+        )
         return MetaLearningTask(x=task.x, y=noisy_y, param=task.param)
 
     def get_task_by_index(self, task_index: int) -> MetaLearningTask:
         task = self._add_noise_to_task(
-            self._get_task_by_index_without_noise(task_index=task_index)
+            self._get_task_by_index_without_noise(task_index=task_index),
+            task_index=task_index,
         )
         return task
 

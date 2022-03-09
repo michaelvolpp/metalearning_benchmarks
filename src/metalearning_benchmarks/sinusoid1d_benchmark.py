@@ -5,7 +5,7 @@ from metalearning_benchmarks.base_parametric_benchmark import (
 )
 
 
-class Sinusoid(ParametricBenchmark):
+class Sinusoid1D(ParametricBenchmark):
     # cf. MAML paper, section "5.1. Regression"
     d_param = 2
     d_x = 1

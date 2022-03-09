@@ -3,17 +3,8 @@ from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
 
-from metalearning_benchmarks import (
-    RBFGPBenchmark,
-    WeaklyPeriodicGPBenchmark,
-    Matern52GPBenchmark,
-    Quadratic1D,
-    Linear1D,
-    Affine1D,
-    Sinusoid,
-)
+from metalearning_benchmarks import benchmark_dict as bm_dict
 from metalearning_benchmarks.base_benchmark import MetaLearningBenchmark
-from metalearning_benchmarks.util import normalize_benchmark
 
 
 def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
@@ -38,11 +29,11 @@ def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
 
 
 if __name__ == "__main__":
-    n_task = 5
+    n_task = 25
     n_datapoints_per_task = 128
     benchmarks = []
     benchmarks.append(
-        Sinusoid(
+        bm_dict["Sinusoid1D"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
             output_noise=0.1,
@@ -52,7 +43,17 @@ if __name__ == "__main__":
         )
     )
     benchmarks.append(
-        Affine1D(
+        bm_dict["LineSine1D"](
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=0.1,
+            seed_noise=1234,
+            seed_task=2234,
+            seed_x=3234,
+        )
+    )
+    benchmarks.append(
+        bm_dict["Affine1D"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
             output_noise=0.1,
@@ -62,7 +63,7 @@ if __name__ == "__main__":
         ),
     )
     benchmarks.append(
-        RBFGPBenchmark(
+        bm_dict["RBFGPBenchmark"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
             output_noise=0.1,
