@@ -46,6 +46,22 @@ def _normalize_task(task: MetaLearningTask, normalizers: dict) -> MetaLearningTa
     return MetaLearningTask(x=x_norm, y=y_norm)
 
 
+def collate_benchmark(benchmark: MetaLearningBenchmark):
+    x = np.zeros(
+        (benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_x),
+        dtype=np.float32,
+    )
+    y = np.zeros(
+        (benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_y),
+        dtype=np.float32,
+    )
+    for l, task in enumerate(benchmark):
+        x[l] = task.x
+        y[l] = task.y
+
+    return x, y
+
+
 def normalize_benchmark(benchmark: MetaLearningBenchmark) -> MetaLearningBenchmark:
     ## compute normalizers
     x = np.zeros((benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_x))
