@@ -21,7 +21,7 @@ def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
         for task in benchmark:
             sort_idx = np.argsort(task.x.squeeze())
             x, y = task.x.squeeze()[sort_idx], task.y.squeeze()[sort_idx]
-            ax.plot(x, y)
+            ax.plot(x, y, color="b", alpha=0.3)
         ax.set_title(type(benchmark).__name__)
         ax.grid()
     fig.tight_layout()
@@ -29,14 +29,14 @@ def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
 
 
 if __name__ == "__main__":
-    n_task = 6
+    n_task = 500 
     n_datapoints_per_task = 128
     benchmarks = []
     benchmarks.append(
         bm_dict["Sinusoid1D"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
+            output_noise=0.25,
             seed_noise=1234,
             seed_task=2234,
             seed_x=3234,
@@ -46,30 +46,30 @@ if __name__ == "__main__":
         bm_dict["LineSine1D"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
+            output_noise=0.25,
             seed_noise=1234,
             seed_task=2234,
             seed_x=3234,
         )
     )
-    benchmarks.append(
-        bm_dict["Affine1D"](
-            n_task=n_task,
-            n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
-            seed_noise=1234,
-            seed_task=2234,
-            seed_x=3234,
-        ),
-    )
-    benchmarks.append(
-        bm_dict["RBFGPBenchmark"](
-            n_task=n_task,
-            n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
-            seed_noise=1234,
-            seed_task=2234,
-            seed_x=3234,
-        ),
-    )
+    # benchmarks.append(
+    #     bm_dict["Affine1D"](
+    #         n_task=n_task,
+    #         n_datapoints_per_task=n_datapoints_per_task,
+    #         output_noise=0.1,
+    #         seed_noise=1234,
+    #         seed_task=2234,
+    #         seed_x=3234,
+    #     ),
+    # )
+    # benchmarks.append(
+    #     bm_dict["RBFGPBenchmark"](
+    #         n_task=n_task,
+    #         n_datapoints_per_task=n_datapoints_per_task,
+    #         output_noise=0.1,
+    #         seed_noise=1234,
+    #         seed_task=2234,
+    #         seed_x=3234,
+    #     ),
+    # )
     plot_benchmark(benchmarks=benchmarks)

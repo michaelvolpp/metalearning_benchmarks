@@ -167,10 +167,10 @@ def perform_determinism_test(all_benchmarks, normalize):
             bm_instance_2_1 = normalize_benchmark(bm_instance_2_1)
             bm_instance_2_2 = normalize_benchmark(bm_instance_2_2)
 
-        task_1_1 = bm_instance_1_1.get_task_by_index(task_index=0)
-        task_1_2 = bm_instance_1_2.get_task_by_index(task_index=0)
-        task_2_1 = bm_instance_2_1.get_task_by_index(task_index=0)
-        task_2_2 = bm_instance_2_2.get_task_by_index(task_index=0)
+        task_1_1 = bm_instance_1_1.get_task_by_id(task_index=0)
+        task_1_2 = bm_instance_1_2.get_task_by_id(task_index=0)
+        task_2_1 = bm_instance_2_1.get_task_by_id(task_index=0)
+        task_2_2 = bm_instance_2_2.get_task_by_id(task_index=0)
 
         # same x-seed -> same x?
         assert (task_1_1.x == task_1_2.x).all()
@@ -241,25 +241,25 @@ def perform_noise_test(all_benchmarks, normalize):
             bm_instance_seed_1_noise_2 = normalize_benchmark(bm_instance_seed_1_noise_2)
             bm_instance_seed_2_noise_1 = normalize_benchmark(bm_instance_seed_2_noise_1)
 
-        task_noise_seed_1_noise_0 = bm_instance_seed_1_noise_0.get_task_by_index(
+        task_noise_seed_1_noise_0 = bm_instance_seed_1_noise_0.get_task_by_id(
             task_index=0
         )
         task_noise_seed_1_no_noise = (
             bm_instance_seed_1_noise_1._get_task_by_index_without_noise(task_index=0)
         )
-        task_noise_seed_1_noise_1 = bm_instance_seed_1_noise_1.get_task_by_index(
+        task_noise_seed_1_noise_1 = bm_instance_seed_1_noise_1.get_task_by_id(
             task_index=0
         )
-        task_noise_seed_1_noise_1_2 = bm_instance_seed_1_noise_1.get_task_by_index(
+        task_noise_seed_1_noise_1_2 = bm_instance_seed_1_noise_1.get_task_by_id(
             task_index=0
         )
-        task_noise_seed_1_noise_2 = bm_instance_seed_1_noise_2.get_task_by_index(
+        task_noise_seed_1_noise_2 = bm_instance_seed_1_noise_2.get_task_by_id(
             task_index=0
         )
         task_noise_seed_2_no_noise = (
             bm_instance_seed_2_noise_1._get_task_by_index_without_noise(task_index=0)
         )
-        task_noise_seed_2_noise_1 = bm_instance_seed_2_noise_1.get_task_by_index(
+        task_noise_seed_2_noise_1 = bm_instance_seed_2_noise_1.get_task_by_id(
             task_index=0
         )
 

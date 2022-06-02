@@ -4,7 +4,7 @@ from typing import Optional, Union
 import numpy as np
 
 
-class MetaLearningTask(ABC):
+class MetaLearningTask:
     """
     This is a simple container for two arrays and (not necessarily) a parameter vector,
 
@@ -29,6 +29,11 @@ class MetaLearningTask(ABC):
         self._x = x
         self._y = y
         self._param = param
+
+    # makes a task unpackable
+    def __iter__(self):
+        yield self._x
+        yield self._y
 
     @property
     def x(self) -> np.ndarray:
@@ -152,6 +157,17 @@ class MetaLearningBenchmark(ABC):
     def is_nonparametric(self) -> bool:
         return self.d_param is None
 
+    def __iter__(self) -> MetaLearningTask:
+        for task_idx in range(self.n_task):
+            yield self.get_task_by_id(task_id=task_idx)
+
+    def __len__(self) -> int:
+        return self.n_task
+
+    def _iter_without_noise(self) -> MetaLearningTask:
+        for task_idx in range(self.n_task):
+            yield self._get_task_by_index_without_noise(task_index=task_idx)
+
     def _generate_noise_vector_for_task(
         self, task: MetaLearningTask, task_index: int
     ) -> np.ndarray:
@@ -170,25 +186,30 @@ class MetaLearningBenchmark(ABC):
         )
         return MetaLearningTask(x=task.x, y=noisy_y, param=task.param)
 
-    def get_task_by_index(self, task_index: int) -> MetaLearningTask:
+    def get_task_by_id(self, task_id: int) -> MetaLearningTask:
         task = self._add_noise_to_task(
-            self._get_task_by_index_without_noise(task_index=task_index),
-            task_index=task_index,
+            self._get_task_by_index_without_noise(task_index=task_id),
+            task_index=task_id,
         )
         return task
 
     def get_random_task(self) -> MetaLearningTask:
         idx = int(self.rng_task.randint(low=0, high=self.n_task, size=1))
-        task = self.get_task_by_index(task_index=idx)
+        task = self.get_task_by_id(task_id=idx)
         return task
 
-    def __iter__(self) -> MetaLearningTask:
-        for task_idx in range(self.n_task):
-            yield self.get_task_by_index(task_index=task_idx)
+    def get_collated_data(self):
+        # collate data
+        x = np.zeros(
+            (self.n_task, self.n_datapoints_per_task, self.d_x),
+            dtype=np.float32,
+        )
+        y = np.zeros(
+            (self.n_task, self.n_datapoints_per_task, self.d_y),
+            dtype=np.float32,
+        )
+        for l, task in enumerate(self):
+            x[l] = task.x
+            y[l] = task.y
 
-    def _iter_without_noise(self) -> MetaLearningTask:
-        for task_idx in range(self.n_task):
-            yield self._get_task_by_index_without_noise(task_index=task_idx)
-
-    def __len__(self) -> int:
-        return self.n_task
+        return x, y
