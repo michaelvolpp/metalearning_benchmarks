@@ -1,7 +1,7 @@
 import pytest
 
 from metalearning_benchmarks import benchmark_dict
-from metalearning_benchmarks.base_benchmark import MetaLearningTask
+from metalearning_benchmarks.metalearning_benchmark import MetaLearningTask
 import numpy as np
 from metalearning_benchmarks.util import normalize_benchmark
 

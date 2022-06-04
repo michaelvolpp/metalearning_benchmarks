@@ -3,7 +3,7 @@ from abc import abstractmethod
 import numpy as np
 from numpy.polynomial.polynomial import Polynomial
 
-from metalearning_benchmarks.base_parametric_benchmark import (
+from metalearning_benchmarks.parametric_benchmark import (
     ParametricBenchmark,
 )
 

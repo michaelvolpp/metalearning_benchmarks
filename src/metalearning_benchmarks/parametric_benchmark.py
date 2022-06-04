@@ -2,10 +2,9 @@ from abc import abstractmethod
 
 import numpy as np
 
-from metalearning_benchmarks.base_benchmark import (
-    MetaLearningBenchmark,
-    MetaLearningTask,
-)
+from metalearning_benchmarks.metalearning_benchmark import \
+    MetaLearningBenchmark
+from metalearning_benchmarks.metalearning_task import MetaLearningTask
 
 
 class ParametricBenchmark(MetaLearningBenchmark):
