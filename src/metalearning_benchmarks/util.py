@@ -11,28 +11,6 @@ from metalearning_benchmarks.list_of_tasks_benchmark import (
 )
 
 
-def split_task(
-    task: MetaLearningTask,
-    n_context: int,
-    rng: Optional[np.random.RandomState] = None,
-) -> Tuple[MetaLearningTask, MetaLearningTask]:
-    assert 0 <= n_context <= task.n_datapoints
-
-    idx = np.arange(task.n_datapoints)
-    if rng is not None:
-        rng.shuffle(idx)
-    idx_context = idx[:n_context]
-    idx_target = idx[n_context:]
-
-    task_context = MetaLearningTask(
-        x=task.x[idx_context], y=task.y[idx_context], param=task.param
-    )
-    task_target = MetaLearningTask(
-        x=task.x[idx_target], y=task.y[idx_target], param=task.param
-    )
-
-    return task_context, task_target
-
 
 def _normalize_task(task: MetaLearningTask, normalizers: dict) -> MetaLearningTask:
     x_norm = task.x - normalizers["mean_x"][None, :]
