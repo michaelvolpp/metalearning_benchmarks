@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from metalearning_benchmarks import benchmark_dict as bm_dict
-from metalearning_benchmarks.base_benchmark import MetaLearningBenchmark
+from metalearning_benchmarks.metalearning_benchmark import MetaLearningBenchmark
 
 
 def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):

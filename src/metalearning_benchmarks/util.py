@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 import numpy as np
 
-from metalearning_benchmarks.base_benchmark import (
+from metalearning_benchmarks.metalearning_benchmark import (
     MetaLearningTask,
     MetaLearningBenchmark,
 )
@@ -10,28 +10,6 @@ from metalearning_benchmarks.list_of_tasks_benchmark import (
     ListOfTasksBenchmark,
 )
 
-
-def split_task(
-    task: MetaLearningTask,
-    n_context: int,
-    rng: Optional[np.random.RandomState] = None,
-) -> Tuple[MetaLearningTask, MetaLearningTask]:
-    assert 0 <= n_context <= task.n_datapoints
-
-    idx = np.arange(task.n_datapoints)
-    if rng is not None:
-        rng.shuffle(idx)
-    idx_context = idx[:n_context]
-    idx_target = idx[n_context:]
-
-    task_context = MetaLearningTask(
-        x=task.x[idx_context], y=task.y[idx_context], param=task.param
-    )
-    task_target = MetaLearningTask(
-        x=task.x[idx_target], y=task.y[idx_target], param=task.param
-    )
-
-    return task_context, task_target
 
 
 def _normalize_task(task: MetaLearningTask, normalizers: dict) -> MetaLearningTask:
@@ -44,22 +22,6 @@ def _normalize_task(task: MetaLearningTask, normalizers: dict) -> MetaLearningTa
         y_norm = y_norm / normalizers["std_y"][None, :]
 
     return MetaLearningTask(x=x_norm, y=y_norm)
-
-
-def collate_benchmark(benchmark: MetaLearningBenchmark):
-    x = np.zeros(
-        (benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_x),
-        dtype=np.float32,
-    )
-    y = np.zeros(
-        (benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_y),
-        dtype=np.float32,
-    )
-    for l, task in enumerate(benchmark):
-        x[l] = task.x
-        y[l] = task.y
-
-    return x, y
 
 
 def normalize_benchmark(benchmark: MetaLearningBenchmark) -> MetaLearningBenchmark:
@@ -94,3 +56,19 @@ def normalize_benchmark(benchmark: MetaLearningBenchmark) -> MetaLearningBenchma
         seed_task=benchmark.seed_task,
         seed_noise=benchmark.seed_noise,
     )
+
+
+def collate_benchmark(benchmark: MetaLearningBenchmark):
+    x = np.zeros(
+        (benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_x),
+        dtype=np.float32,
+    )
+    y = np.zeros(
+        (benchmark.n_task, benchmark.n_datapoints_per_task, benchmark.d_y),
+        dtype=np.float32,
+    )
+    for l, task in enumerate(benchmark):
+        x[l] = task.x
+        y[l] = task.y
+
+    return x, y

@@ -1,4 +1,4 @@
-from metalearning_benchmarks.base_benchmark import (
+from metalearning_benchmarks.metalearning_benchmark import (
     MetaLearningBenchmark,
     MetaLearningTask,
 )
