@@ -24,6 +24,7 @@ from metalearning_benchmarks.sinusoid1d_benchmark import Sinusoid1D
 from metalearning_benchmarks.linear1d_benchmark import Linear1D
 from metalearning_benchmarks.affine1d_benchmark import Affine1D
 from metalearning_benchmarks.line_sine1d_benchmark import LineSine1D
+from metalearning_benchmarks.furuta_benchmark import FreePointMassFurutaBenchmark
 
 benchmark_dict = {
     "PolynomialDeg0": PolynomialDeg0,
@@ -42,4 +43,5 @@ benchmark_dict = {
     "Matern52GPBenchmark": Matern52GPBenchmark,
     "RBFGPBenchmark": RBFGPBenchmark,
     "WeaklyPeriodicGPBenchmark": WeaklyPeriodicGPBenchmark,
+    "FreePointMassFuruta": FreePointMassFurutaBenchmark,
 }

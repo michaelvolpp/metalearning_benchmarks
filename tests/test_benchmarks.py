@@ -39,8 +39,8 @@ def test_noise(all_benchmarks):
 def test_normalize(all_benchmarks):
     print("Testing normalization for {:d} benchmarks".format(len(all_benchmarks)))
 
-    n_task = 8
-    n_datapoints_per_task = 16
+    n_task = 3
+    n_datapoints_per_task = 8
     output_noise = 1e-2
     seed_x = 1234
     seed_task = 1235
@@ -50,7 +50,9 @@ def test_normalize(all_benchmarks):
         bm_instance = bm(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
             seed_x=seed_x,
             seed_task=seed_task,
             seed_noise=seed_noise,
@@ -87,8 +89,8 @@ def test_normalize(all_benchmarks):
 def perform_shape_test(all_benchmarks, normalize):
     print("Testing shapes of {:d} benchmarks".format(len(all_benchmarks)))
 
-    n_task = 8
-    n_datapoints_per_task = 16
+    n_task = 3
+    n_datapoints_per_task = 8
     output_noise = 1e-2
     seed_x = 1234
     seed_task = 1235
@@ -98,7 +100,9 @@ def perform_shape_test(all_benchmarks, normalize):
         bm_instance = bm(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
             seed_x=seed_x,
             seed_task=seed_task,
             seed_noise=seed_noise,
@@ -120,8 +124,8 @@ def perform_shape_test(all_benchmarks, normalize):
 def perform_determinism_test(all_benchmarks, normalize):
     print("Testing determinisim of {:d} benchmarks".format(len(all_benchmarks)))
 
-    n_task = 8
-    n_datapoints_per_task = 16
+    n_task = 3
+    n_datapoints_per_task = 8
     output_noise = 1e-2
     seed_x_1, seed_x_2 = 1234, 2234
     seed_task_1, seed_task_2 = 1235, 2235
@@ -132,7 +136,9 @@ def perform_determinism_test(all_benchmarks, normalize):
         bm_instance_1_1 = bm(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
             seed_x=seed_x_1,
             seed_task=seed_task_1,
             seed_noise=seed_noise,
@@ -140,15 +146,29 @@ def perform_determinism_test(all_benchmarks, normalize):
         bm_instance_1_2 = bm(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
             seed_x=seed_x_1,
             seed_task=seed_task_2,
+            seed_noise=seed_noise,
+        )
+        bm_instance_1_3 = bm(
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
+            seed_x=seed_x_1,
+            seed_task=seed_task_1,
             seed_noise=seed_noise,
         )
         bm_instance_2_1 = bm(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
             seed_x=seed_x_2,
             seed_task=seed_task_1,
             seed_noise=seed_noise,
@@ -156,34 +176,64 @@ def perform_determinism_test(all_benchmarks, normalize):
         bm_instance_2_2 = bm(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
             seed_x=seed_x_2,
             seed_task=seed_task_2,
+            seed_noise=seed_noise,
+        )
+        bm_instance_2_3 = bm(
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=output_noise
+            if not getattr(bm, "is_dynamical_system", False)
+            else 0,
+            seed_x=seed_x_2,
+            seed_task=seed_task_1,
             seed_noise=seed_noise,
         )
         if normalize:
             bm_instance_1_1 = normalize_benchmark(bm_instance_1_1)
             bm_instance_1_2 = normalize_benchmark(bm_instance_1_2)
+            bm_instance_1_3 = normalize_benchmark(bm_instance_1_3)
             bm_instance_2_1 = normalize_benchmark(bm_instance_2_1)
             bm_instance_2_2 = normalize_benchmark(bm_instance_2_2)
+            bm_instance_2_3 = normalize_benchmark(bm_instance_2_3)
 
         task_1_1 = bm_instance_1_1.get_task_by_index(task_index=0)
         task_1_2 = bm_instance_1_2.get_task_by_index(task_index=0)
+        task_1_3 = bm_instance_1_3.get_task_by_index(task_index=0)
         task_2_1 = bm_instance_2_1.get_task_by_index(task_index=0)
         task_2_2 = bm_instance_2_2.get_task_by_index(task_index=0)
+        task_2_3 = bm_instance_2_3.get_task_by_index(task_index=0)
 
-        # same x-seed -> same x?
-        assert (task_1_1.x == task_1_2.x).all()
-        assert (task_2_1.x == task_2_2.x).all()
+        if not getattr(bm, "is_dynamical_system", False):
+            # same x-seed -> same x?
+            assert (task_1_1.x == task_1_2.x).all()
+            assert (task_1_1.x == task_1_3.x).all()
+            assert (task_2_1.x == task_2_2.x).all()
+            assert (task_2_1.x == task_2_3.x).all()
+        else:
+            # same x-seed and same task-seed -> same x?
+            assert (task_1_1.x == task_1_3.x).all()
+            assert (task_2_1.x == task_2_3.x).all()
+
+        # different x-seed -> different x?
+        assert (task_1_1.x != task_2_1.x).any()
+        assert (task_1_1.x != task_2_2.x).any()
+        assert (task_1_1.x != task_2_3.x).any()
+        assert (task_1_2.x != task_2_1.x).any()
+        assert (task_1_2.x != task_2_2.x).any()
+        assert (task_1_2.x != task_2_3.x).any()
+        assert (task_1_3.x != task_2_1.x).any()
+        assert (task_1_3.x != task_2_2.x).any()
+        assert (task_1_3.x != task_2_3.x).any()
 
         # same param-seed -> same params?
         if not bm_instance_1_1.is_nonparametric:
             assert (task_1_1.param == task_2_1.param).all()
             assert (task_1_2.param == task_2_2.param).all()
-
-        # different x-seed -> different x?
-        assert (task_1_1.x != task_2_1.x).any()
-        assert (task_1_2.x != task_2_2.x).any()
 
         # different param-seed -> different params?
         if not bm_instance_1_1.is_nonparametric:
@@ -194,14 +244,17 @@ def perform_determinism_test(all_benchmarks, normalize):
 def perform_noise_test(all_benchmarks, normalize):
     print("Testing noise behaviour of {:d} benchmarks".format(len(all_benchmarks)))
 
-    n_task = 8
-    n_datapoints_per_task = 16
+    n_task = 3
+    n_datapoints_per_task = 8
     seed_x = 1234
     seed_task = 2234
     seed_noise_1, seed_noise_2 = 3236, 3237
     output_noise_0, output_noise_1, output_noise_2 = 0.0, 0.1, 0.2
 
     for bm in all_benchmarks:
+        if getattr(bm, "is_dynamical_system", False):
+            continue  # dynamical systems do not use output noise
+
         # generate benchmarks with and without noise
         bm_instance_seed_1_noise_0 = bm(
             n_task=n_task,
