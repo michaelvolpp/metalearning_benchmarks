@@ -10,6 +10,7 @@ class Sinusoid1D(ParametricBenchmark):
     d_param = 2
     d_x = 1
     d_y = 1
+    is_dynamical_system = False
 
     amplitude_bounds = np.array([0.1, 5])
     phase_bounds = np.array([0.0, np.pi])

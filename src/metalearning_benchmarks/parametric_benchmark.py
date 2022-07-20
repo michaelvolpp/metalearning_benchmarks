@@ -46,35 +46,10 @@ class ParametricBenchmark(MetaLearningBenchmark):
 
     @property
     @abstractmethod
-    def d_x(self) -> int:
-        """
-        Provide the dimension for the x-values of the benchmark.
-        For Quadratic3D, d_x = 3.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def d_y(self) -> int:
-        """
-        The output dimension of the benchmark.
-        """
-        pass
-
-    @property
-    @abstractmethod
     def d_param(self) -> int:
         """
+        Has to be defined as a class property.
         The parameter dimension of the benchmark.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def x_bounds(self) -> np.ndarray:
-        """
-        The bounds of the input values of the benchmark.
-        return value shape: (d_x, 2)
         """
         pass
 

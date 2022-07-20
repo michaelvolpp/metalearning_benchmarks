@@ -1,14 +1,13 @@
 import numpy as np
 
-from metalearning_benchmarks.parametric_benchmark import (
-    ParametricBenchmark,
-)
+from metalearning_benchmarks.parametric_benchmark import ParametricBenchmark
 
 
 class Affine1D(ParametricBenchmark):
     d_param = 2
     d_x = 1
     d_y = 1
+    is_dynamical_system = False
 
     m_bounds = np.array([0.3, 8.0])
     b_bounds = np.array([-8.0, -3.0])

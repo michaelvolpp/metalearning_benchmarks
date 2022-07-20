@@ -9,6 +9,7 @@ class Linear1D(ParametricBenchmark):
     d_param = 1
     d_x = 1
     d_y = 1
+    is_dynamical_system = False
 
     m_bounds = np.array([3.0, 8.0])
     param_bounds = np.array([m_bounds])

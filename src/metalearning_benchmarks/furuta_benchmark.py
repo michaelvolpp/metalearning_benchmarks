@@ -161,7 +161,7 @@ class FreePointMassFurutaBenchmark(MetaLearningBenchmark):
     # - store trajectories, so the x's (= states) are not sampled independently, but
     #   depend on the chosen parameters, i.e., only the same param-seed together with
     #   the same x-seed generates the same x's
-    is_dynamical_system = True 
+    is_dynamical_system = True
 
     ### Input-output dimensions ###
     d_x = 4
@@ -270,11 +270,7 @@ class FreePointMassFurutaBenchmark(MetaLearningBenchmark):
                     self.x[l, t + 1] = self.x[l, t] + dx
 
     def _get_task_by_index_without_noise(self, task_index: int) -> MetaLearningTask:
-        return MetaLearningTask(
-            x=self.x[task_index],
-            y=self.y[task_index],
-            param=np.array([v[task_index] for v in self.params.values()]),
-        )
+        return MetaLearningTask(x=self.x[task_index], y=self.y[task_index])
 
     def _compute_next_state(
         self,
@@ -325,7 +321,7 @@ class FreePointMassFurutaBenchmark(MetaLearningBenchmark):
             theta_pendulum=state[1] / self.norm_scale[1],
             theta_arm_dot=state[2] / self.norm_scale[2],
             theta_pendulum_dot=state[3] / self.norm_scale[3],
-            # use rng_x (not rng_noise) as the torque-noise determines the states 
+            # use rng_x (not rng_noise) as the torque-noise determines the states
             # (i.e., the x's) of the trajectories
             tau1=std_tau1 * self.rng_x.randn() * self.torque_noise,
             tau2=std_tau2 * self.rng_x.randn() * self.torque_noise,

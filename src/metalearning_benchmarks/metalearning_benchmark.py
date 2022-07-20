@@ -43,6 +43,7 @@ class MetaLearningBenchmark(ABC):
     @abstractmethod
     def d_x(self) -> int:
         """
+        Has to be defined as a class property.
         :return: The input dimensionality.
         """
         pass
@@ -51,17 +52,15 @@ class MetaLearningBenchmark(ABC):
     @abstractmethod
     def d_y(self) -> int:
         """
+        Has to be defined as a class property.
         Return the output dimensionality.
         """
         pass
 
+
     @property
     @abstractmethod
-    def d_param(self) -> Optional[int]:
-        """
-        If the benchmark is parametric, return the dimensionality of the parameter
-        vector.
-        """
+    def is_dynamical_system(self) -> bool:
         pass
 
     @property
@@ -89,10 +88,6 @@ class MetaLearningBenchmark(ABC):
     # for backwards compatibility
     def rng_param(self):
         return self.rng_task
-
-    @property
-    def is_nonparametric(self) -> bool:
-        return self.d_param is None
 
     def _generate_noise_vector_for_task(
         self, task: MetaLearningTask, task_index: int

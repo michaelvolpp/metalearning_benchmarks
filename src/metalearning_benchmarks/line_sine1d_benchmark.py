@@ -10,6 +10,7 @@ class LineSine1D(ParametricBenchmark):
     d_param = 5
     d_x = 1
     d_y = 1
+    is_dynamical_system = False
 
     choice_bounds = np.array([0.0, 1.0])
     slope_bounds = np.array([-3.0, 3.0])

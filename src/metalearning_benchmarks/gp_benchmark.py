@@ -11,7 +11,7 @@ from metalearning_benchmarks.metalearning_benchmark import (
 
 
 class GPBenchmark(MetaLearningBenchmark):
-    d_param = None
+    is_dynamical_system = False
 
     def __init__(
         self, n_task, n_datapoints_per_task, output_noise, seed_task, seed_x, seed_noise

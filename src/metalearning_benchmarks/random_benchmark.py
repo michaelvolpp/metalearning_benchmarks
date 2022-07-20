@@ -8,7 +8,7 @@ import numpy as np
 
 
 class RandomBenchmark(MetaLearningBenchmark):
-    d_param = None
+    is_dynamical_system = False
 
     def __init__(
         self, n_task, n_datapoints_per_task, output_noise, seed_task, seed_x, seed_noise
@@ -43,7 +43,7 @@ class RandomBenchmark(MetaLearningBenchmark):
         return np.array([[-1.0, 1.0]] * self.d_x)
 
     def _get_task_by_index_without_noise(self, task_index: int) -> MetaLearningTask:
-        return MetaLearningTask(x=self.x[task_index], y=self.y[task_index], param=None)
+        return MetaLearningTask(x=self.x[task_index], y=self.y[task_index])
 
 
 class RandomBenchmarkDx3Dy2(RandomBenchmark):

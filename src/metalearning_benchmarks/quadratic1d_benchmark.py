@@ -10,6 +10,7 @@ class Quadratic1D(ParametricBenchmark):
     d_param = 3
     d_x = 1
     d_y = 1
+    is_dynamical_system = False
 
     a_bounds = np.array([0.5, 1.5])
     b_bounds = np.array([-0.9, 0.9])

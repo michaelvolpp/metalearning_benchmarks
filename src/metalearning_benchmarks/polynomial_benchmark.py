@@ -12,6 +12,7 @@ class PolynomialBenchmark(ParametricBenchmark):
     d_x = 1
     d_y = 1
     x_bounds = np.array([[-1.0, 1.0]])
+    is_dynamical_system = False
 
     def __init__(
         self, n_task, n_datapoints_per_task, output_noise, seed_task, seed_x, seed_noise

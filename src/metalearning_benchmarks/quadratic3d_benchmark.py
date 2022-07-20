@@ -10,6 +10,7 @@ class Quadratic3D(ParametricBenchmark):
     d_param = 3
     d_x = 3
     d_y = 1
+    is_dynamical_system = False
 
     a_bounds = np.array([0.1, 10.0])
     b_bounds = np.array([0.1, 10.0])
