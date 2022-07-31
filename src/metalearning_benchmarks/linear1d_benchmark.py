@@ -27,7 +27,7 @@ class Linear1D(ParametricBenchmark):
             seed_noise=seed_noise,
         )
 
-    def __call__(self, params, x):
-        m = params
+    def __call__(self, x: np.ndarray, param: np.ndarray):
+        m = param
         y = m * x
         return y

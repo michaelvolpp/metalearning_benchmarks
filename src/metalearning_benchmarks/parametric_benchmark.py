@@ -2,8 +2,7 @@ from abc import abstractmethod
 
 import numpy as np
 
-from metalearning_benchmarks.metalearning_benchmark import \
-    MetaLearningBenchmark
+from metalearning_benchmarks.metalearning_benchmark import MetaLearningBenchmark
 from metalearning_benchmarks.metalearning_task import MetaLearningTask
 
 
@@ -42,7 +41,7 @@ class ParametricBenchmark(MetaLearningBenchmark):
         )
         self.y = np.zeros((self.x.shape[0], self.x.shape[1], self.d_y))
         for i in range(self.n_task):
-            self.y[i] = self(params=self.params[i], x=self.x[i])
+            self.y[i] = self(param=self.params[i], x=self.x[i])
 
     @property
     @abstractmethod
@@ -63,7 +62,7 @@ class ParametricBenchmark(MetaLearningBenchmark):
         pass
 
     @abstractmethod
-    def __call__(self, params: np.ndarray, x: np.ndarray) -> np.ndarray:
+    def __call__(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
         """
         Evaluate the function at given x and parameters.
 
@@ -77,6 +76,11 @@ class ParametricBenchmark(MetaLearningBenchmark):
         y : (..., d_y)
         """
         pass
+
+    def _call_with_noise(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
+        y = self(x=x, param=param)
+        y += self.output_noise * self.rng_noise.randn(*y.shape)
+        return y
 
     def _get_task_by_index_without_noise(self, task_index):
         return MetaLearningTask(

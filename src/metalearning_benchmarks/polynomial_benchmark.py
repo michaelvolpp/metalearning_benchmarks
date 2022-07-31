@@ -35,8 +35,8 @@ class PolynomialBenchmark(ParametricBenchmark):
     def param_bounds(self) -> np.ndarray:
         return np.array([[-10.0, 10.0]] * self.d_param)
 
-    def __call__(self, params: np.ndarray, x: np.ndarray) -> np.ndarray:
-        return Polynomial(coef=params)(x)
+    def __call__(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
+        return Polynomial(coef=param)(x)
 
 
 class PolynomialDeg0(PolynomialBenchmark):

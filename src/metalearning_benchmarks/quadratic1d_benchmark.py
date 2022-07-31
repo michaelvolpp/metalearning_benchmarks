@@ -30,7 +30,7 @@ class Quadratic1D(ParametricBenchmark):
             seed_noise=seed_noise,
         )
 
-    def __call__(self, params, x):
-        a, b, c = params
+    def __call__(self, x: np.ndarray, param: np.ndarray):
+        a, b, c = param
         y = (a * (x + b)) ** 2 + c
         return y

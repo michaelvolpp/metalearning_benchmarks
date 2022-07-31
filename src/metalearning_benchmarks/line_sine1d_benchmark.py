@@ -34,8 +34,8 @@ class LineSine1D(ParametricBenchmark):
             seed_noise=seed_noise,
         )
 
-    def __call__(self, params: np.ndarray, x: np.ndarray) -> np.ndarray:
-        choice, slope, intercept, amplitude, phase = params
+    def __call__(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
+        choice, slope, intercept, amplitude, phase = param
         if choice < 0.5:
             y = amplitude * np.sin(x + phase)
         else:

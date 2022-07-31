@@ -30,8 +30,8 @@ class Quadratic3D(ParametricBenchmark):
             seed_noise=seed_noise,
         )
 
-    def __call__(self, params: np.ndarray, x: np.ndarray) -> np.ndarray:
-        a, b, c = params
+    def __call__(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
+        a, b, c = param
         y = (
             0.5 * a * np.linalg.norm(x, axis=1, keepdims=True) ** 2
             + b * np.matmul(x, np.ones((self.d_x, 1)))

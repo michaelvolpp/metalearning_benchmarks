@@ -26,7 +26,7 @@ class Affine1D(ParametricBenchmark):
             seed_noise=seed_noise,
         )
 
-    def __call__(self, params, x):
-        m, b = params
+    def __call__(self, x: np.ndarray, param: np.ndarray):
+        m, b = param
         y = m * x + b
         return y

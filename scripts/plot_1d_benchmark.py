@@ -33,7 +33,7 @@ if __name__ == "__main__":
     n_datapoints_per_task = 128
     benchmarks = []
     benchmarks.append(
-        bm_dict["Sinusoid1D"](
+        bm_dict["Quadratic1D"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
             output_noise=0.1,
@@ -42,34 +42,34 @@ if __name__ == "__main__":
             seed_x=3234,
         )
     )
-    benchmarks.append(
-        bm_dict["LineSine1D"](
-            n_task=n_task,
-            n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
-            seed_noise=1234,
-            seed_task=2234,
-            seed_x=3234,
-        )
-    )
-    benchmarks.append(
-        bm_dict["Affine1D"](
-            n_task=n_task,
-            n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
-            seed_noise=1234,
-            seed_task=2234,
-            seed_x=3234,
-        ),
-    )
-    benchmarks.append(
-        bm_dict["RBFGPBenchmark"](
-            n_task=n_task,
-            n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
-            seed_noise=1234,
-            seed_task=2234,
-            seed_x=3234,
-        ),
-    )
+    # benchmarks.append(
+    #     bm_dict["LineSine1D"](
+    #         n_task=n_task,
+    #         n_datapoints_per_task=n_datapoints_per_task,
+    #         output_noise=0.1,
+    #         seed_noise=1234,
+    #         seed_task=2234,
+    #         seed_x=3234,
+    #     )
+    # )
+    # benchmarks.append(
+    #     bm_dict["Affine1D"](
+    #         n_task=n_task,
+    #         n_datapoints_per_task=n_datapoints_per_task,
+    #         output_noise=0.1,
+    #         seed_noise=1234,
+    #         seed_task=2234,
+    #         seed_x=3234,
+    #     ),
+    # )
+    # benchmarks.append(
+    #     bm_dict["RBFGPBenchmark"](
+    #         n_task=n_task,
+    #         n_datapoints_per_task=n_datapoints_per_task,
+    #         output_noise=0.1,
+    #         seed_noise=1234,
+    #         seed_task=2234,
+    #         seed_x=3234,
+    #     ),
+    # )
     plot_benchmark(benchmarks=benchmarks)
