@@ -77,12 +77,35 @@ class ParametricBenchmark(MetaLearningBenchmark):
         """
         pass
 
-    def _call_with_noise(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
-        y = self(x=x, param=param)
-        y += self.output_noise * self.rng_noise.randn(*y.shape)
-        return y
-
     def _get_task_by_index_without_noise(self, task_index):
         return MetaLearningTask(
             x=self.x[task_index], y=self.y[task_index], param=self.params[task_index]
         )
+
+
+class ObjectiveFunctionBenchmark(ParametricBenchmark):
+    def __init__(
+        self, n_task, n_datapoints_per_task, output_noise, seed_task, seed_x, seed_noise
+    ):
+        assert self.d_y == 1
+        super().__init__(
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=output_noise,
+            seed_task=seed_task,
+            seed_x=seed_x,
+            seed_noise=seed_noise,
+        )
+
+    @property
+    @abstractmethod
+    def x_min(self, param: np.ndarray) -> np.ndarray:
+        pass
+
+    def y_min(self, param: np.ndarray) -> np.ndarray:
+        return self(x=self.x_min(param), param=param)
+
+    def _call_with_noise(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
+        y = self(x=x, param=param)
+        y += self.output_noise * self.rng_noise.randn(*y.shape)
+        return y

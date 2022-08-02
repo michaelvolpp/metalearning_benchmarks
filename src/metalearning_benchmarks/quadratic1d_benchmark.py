@@ -1,11 +1,9 @@
 import numpy as np
 
-from metalearning_benchmarks.parametric_benchmark import (
-    ParametricBenchmark,
-)
+from metalearning_benchmarks.parametric_benchmark import ObjectiveFunctionBenchmark
 
 
-class Quadratic1D(ParametricBenchmark):
+class Quadratic1D(ObjectiveFunctionBenchmark):
     # cf. our BA-paper @ ICLR
     d_param = 3
     d_x = 1
@@ -34,3 +32,8 @@ class Quadratic1D(ParametricBenchmark):
         a, b, c = param
         y = (a * (x + b)) ** 2 + c
         return y
+
+    def x_min(self, param: np.ndarray):
+        a, b, _ = param
+        assert a > 0.0
+        return -b
