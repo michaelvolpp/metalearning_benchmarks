@@ -64,7 +64,7 @@ class ParametricBenchmark(MetaLearningBenchmark):
     @abstractmethod
     def __call__(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
         """
-        Evaluate the function at given x and parameters.
+        Evaluate the function at given x and parameters. Do *not* add noise!
 
         Parameters
         ----------
@@ -77,7 +77,7 @@ class ParametricBenchmark(MetaLearningBenchmark):
         """
         pass
 
-    def _get_task_by_index_without_noise(self, task_index):
+    def _get_task_by_index_without_noise(self, task_index: int):
         return MetaLearningTask(
             x=self.x[task_index], y=self.y[task_index], param=self.params[task_index]
         )
@@ -99,13 +99,93 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
 
     @property
     @abstractmethod
-    def x_min(self, param: np.ndarray) -> np.ndarray:
+    def _x_min(self, param: np.ndarray) -> np.ndarray:
         pass
 
-    def y_min(self, param: np.ndarray) -> np.ndarray:
-        return self(x=self.x_min(param), param=param)
+    def _call_task_by_param_without_noise(
+        self, x: np.ndarray, param: np.ndarray
+    ) -> np.ndarray:
+        # check input
+        n_points = x.shape[0]
+        assert x.shape == (n_points, self.d_x)
+        assert param.shape == (self.d_param,)
 
-    def _call_with_noise(self, x: np.ndarray, param: np.ndarray) -> np.ndarray:
+        # call task
         y = self(x=x, param=param)
-        y += self.output_noise * self.rng_noise.randn(*y.shape)
+
+        # check output
+        assert y.shape == (n_points, self.d_y)
         return y
+
+    def _call_task_by_param_with_noise(
+        self, x: np.ndarray, param: np.ndarray
+    ) -> np.ndarray:
+        # check input
+        n_points = x.shape[0]
+        assert x.shape == (n_points, self.d_x)
+        assert param.shape == (self.d_param,)
+
+        # call task and add noise
+        y = self._call_task_by_param_without_noise(x=x, param=param)
+        y += self.output_noise * self.rng_noise.randn(*y.shape)
+
+        # check output
+        assert y.shape == (n_points, self.d_y)
+        return y
+
+    def call_task_by_index_with_noise(
+        self, x: np.ndarray, task_index: int
+    ) -> np.ndarray:
+        param = self.params[task_index]
+        return self._call_task_by_param_with_noise(x=x, param=param)
+
+    def call_task_by_index_without_noise(
+        self, x: np.ndarray, task_index: int
+    ) -> np.ndarray:
+        param = self.params[task_index]
+        return self._call_task_by_param_without_noise(x=x, param=param)
+
+    def call_all_tasks_without_noise(self, x: np.ndarray) -> np.ndarray:
+        # check input
+        n_tasks = x.shape[0]
+        n_points = x.shape[1]
+        assert x.shape == (n_tasks, n_points, self.d_x)
+
+        # call all tasks
+        y = np.zeros((n_tasks, n_points, self.d_y))
+        for i in range(self.n_task):
+            y[i] = self.call_task_by_index_without_noise(x=x, task_index=i)
+
+        return y
+
+    def call_all_tasks_with_noise(self, x: np.ndarray) -> np.ndarray:
+        # check input
+        n_tasks = x.shape[0]
+        n_points = x.shape[1]
+        assert x.shape == (n_tasks, n_points, self.d_x)
+
+        # call all tasks
+        y = np.zeros((n_tasks, n_points, self.d_y))
+        for i in range(self.n_task):
+            y[i] = self.call_task_by_index_with_noise(x=x[i], task_index=i)
+
+        return y
+
+    def x_min_by_index(self, task_index: int) -> np.ndarray:
+        param = self.params[task_index]
+        x_min = np.atleast_1d(self._x_min(param))
+
+        # check output
+        assert x_min.shape == (self.d_x,)
+        return x_min
+
+    def y_min_by_index(self, task_index: int) -> np.ndarray:
+        x_min = self.x_min_by_index(task_index)
+        y_min = self.call_task_by_index_without_noise(
+            x=x_min[None], task_index=task_index
+        )
+        y_min = y_min.squeeze(0)
+
+        # check output
+        assert y_min.shape == (self.d_y,)
+        return y_min

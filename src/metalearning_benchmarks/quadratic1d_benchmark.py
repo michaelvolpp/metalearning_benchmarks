@@ -33,7 +33,7 @@ class Quadratic1D(ObjectiveFunctionBenchmark):
         y = (a * (x + b)) ** 2 + c
         return y
 
-    def x_min(self, param: np.ndarray):
+    def _x_min(self, param: np.ndarray):
         a, b, _ = param
         assert a > 0.0
         return -b
