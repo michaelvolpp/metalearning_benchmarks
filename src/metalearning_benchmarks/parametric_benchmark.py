@@ -147,25 +147,23 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
 
     def call_all_tasks_without_noise(self, x: np.ndarray) -> np.ndarray:
         # check input
-        n_tasks = x.shape[0]
         n_points = x.shape[1]
-        assert x.shape == (n_tasks, n_points, self.d_x)
+        assert x.shape == (self.n_task, n_points, self.d_x)
 
         # call all tasks
-        y = np.zeros((n_tasks, n_points, self.d_y))
+        y = np.zeros((self.n_task, n_points, self.d_y))
         for i in range(self.n_task):
-            y[i] = self.call_task_by_index_without_noise(x=x, task_index=i)
+            y[i] = self.call_task_by_index_without_noise(x=x[i], task_index=i)
 
         return y
 
     def call_all_tasks_with_noise(self, x: np.ndarray) -> np.ndarray:
         # check input
-        n_tasks = x.shape[0]
         n_points = x.shape[1]
-        assert x.shape == (n_tasks, n_points, self.d_x)
+        assert x.shape == (self.n_task, n_points, self.d_x)
 
         # call all tasks
-        y = np.zeros((n_tasks, n_points, self.d_y))
+        y = np.zeros((self.n_task, n_points, self.d_y))
         for i in range(self.n_task):
             y[i] = self.call_task_by_index_with_noise(x=x[i], task_index=i)
 
@@ -189,3 +187,18 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
         # check output
         assert y_min.shape == (self.d_y,)
         return y_min
+
+    def x_min_for_all_tasks(self) -> np.ndarray:
+        x_min = np.zeros((self.n_task, self.d_x))
+        for i in range(self.n_task):
+            x_min[i] = self.x_min_by_index(task_index=i)
+        
+        return x_min
+
+    def y_min_for_all_tasks(self) -> np.ndarray:
+        y_min = np.zeros((self.n_task, self.d_y))
+        for i in range(self.n_task):
+            y_min[i] = self.y_min_by_index(task_index=i)
+
+        return y_min
+

@@ -1,6 +1,9 @@
 from metalearning_benchmarks.metalearning_task import MetaLearningTask
 from metalearning_benchmarks.metalearning_benchmark import MetaLearningBenchmark
-from metalearning_benchmarks.parametric_benchmark import ParametricBenchmark
+from metalearning_benchmarks.parametric_benchmark import (
+    ParametricBenchmark,
+    ObjectiveFunctionBenchmark,
+)
 from metalearning_benchmarks.gp_benchmark import (
     Matern52GPBenchmark,
     RBFGPBenchmark,
