@@ -27,6 +27,7 @@ from metalearning_benchmarks.linear1d_benchmark import Linear1D
 from metalearning_benchmarks.affine1d_benchmark import Affine1D
 from metalearning_benchmarks.line_sine1d_benchmark import LineSine1D
 from metalearning_benchmarks.furuta_benchmark import FreePointMassFurutaBenchmark
+from metalearning_benchmarks.forrester1d_benchmark import Forrester1D
 
 benchmark_dict = {
     "PolynomialDeg0": PolynomialDeg0,
@@ -46,4 +47,5 @@ benchmark_dict = {
     "RBFGPBenchmark": RBFGPBenchmark,
     "WeaklyPeriodicGPBenchmark": WeaklyPeriodicGPBenchmark,
     "FreePointMassFuruta": FreePointMassFurutaBenchmark,
+    "Forrester1D": Forrester1D,
 }

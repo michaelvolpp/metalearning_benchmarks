@@ -2,6 +2,7 @@ from abc import abstractmethod
 
 import numpy as np
 
+from typing import Optional
 from metalearning_benchmarks.metalearning_benchmark import MetaLearningBenchmark
 from metalearning_benchmarks.metalearning_task import MetaLearningTask
 
@@ -99,8 +100,12 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
 
     @property
     @abstractmethod
-    def _x_min(self, param: np.ndarray) -> np.ndarray:
+    def _x_min(self, param: np.ndarray) -> Optional[np.ndarray]:
         pass
+
+    @property
+    def has_x_min(self) -> bool:
+        return self._x_min(self.params[0]) is not None
 
     def _call_task_by_param_without_noise(
         self, x: np.ndarray, param: np.ndarray
@@ -169,7 +174,10 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
 
         return y
 
-    def x_min_by_index(self, task_index: int) -> np.ndarray:
+    def x_min_by_index(self, task_index: int) -> Optional[np.ndarray]:
+        if not self.has_x_min:
+            return None
+
         param = self.params[task_index]
         x_min = np.atleast_1d(self._x_min(param))
 
@@ -177,7 +185,10 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
         assert x_min.shape == (self.d_x,)
         return x_min
 
-    def y_min_by_index(self, task_index: int) -> np.ndarray:
+    def y_min_by_index(self, task_index: int) -> Optional[np.ndarray]:
+        if not self.has_x_min:
+            return None
+
         x_min = self.x_min_by_index(task_index)
         y_min = self.call_task_by_index_without_noise(
             x=x_min[None], task_index=task_index
@@ -188,17 +199,22 @@ class ObjectiveFunctionBenchmark(ParametricBenchmark):
         assert y_min.shape == (self.d_y,)
         return y_min
 
-    def x_min_for_all_tasks(self) -> np.ndarray:
+    def x_min_for_all_tasks(self) -> Optional[np.ndarray]:
+        if not self.has_x_min:
+            return None
+
         x_min = np.zeros((self.n_task, self.d_x))
         for i in range(self.n_task):
             x_min[i] = self.x_min_by_index(task_index=i)
-        
+
         return x_min
 
-    def y_min_for_all_tasks(self) -> np.ndarray:
+    def y_min_for_all_tasks(self) -> Optional[np.ndarray]:
+        if not self.has_x_min:
+            return None
+
         y_min = np.zeros((self.n_task, self.d_y))
         for i in range(self.n_task):
             y_min[i] = self.y_min_by_index(task_index=i)
 
         return y_min
-

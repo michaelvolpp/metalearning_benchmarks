@@ -29,14 +29,14 @@ def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
 
 
 if __name__ == "__main__":
-    n_task = 6
+    n_task = 100 
     n_datapoints_per_task = 128
     benchmarks = []
     benchmarks.append(
-        bm_dict["Quadratic1D"](
+        bm_dict["Forrester1D"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=0.1,
+            output_noise=0.25,
             seed_noise=1234,
             seed_task=2234,
             seed_x=3234,
