@@ -251,7 +251,7 @@ class FreePointMassFurutaBenchmark(MetaLearningBenchmark):
             self.theta_pendulum_dot_0,
         ]
         self.y = np.zeros((n_task, n_datapoints_per_task, self.d_y))
-        for l in (pbar := tqdm(range(self.n_task), desc="Generating tasks")):
+        for l in tqdm(range(self.n_task), desc="Generating tasks"):
             for t in range(self.n_datapoints_per_task):
                 dx = self._compute_next_state(
                     theta_arm=self.x[l, t, 0],

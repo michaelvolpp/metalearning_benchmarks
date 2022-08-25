@@ -42,7 +42,7 @@ class ParametricBenchmark(MetaLearningBenchmark):
             + self.x_bounds[:, 0]
         )
         self.y = np.zeros((self.x.shape[0], self.x.shape[1], self.d_y))
-        for i in (pbar := tqdm(range(self.n_task), desc="Generating tasks")):
+        for i in tqdm(range(self.n_task), desc="Generating tasks"):
             self.y[i] = self(param=self.params[i], x=self.x[i])
 
     @property
