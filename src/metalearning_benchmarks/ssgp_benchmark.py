@@ -100,7 +100,7 @@ class RBFSparseSpectrumGPBenchmark(SparseSpectrumGPBenchmark):
         self._data_gp = RBFGPBenchmark(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=0.0,  # use noiseless data s.t. _get_task_by_index_without_noise works
             seed_task=seed_task,
             seed_x=seed_x,
             seed_noise=seed_noise,
@@ -141,7 +141,7 @@ class RBFSparseSpectrumGPVBenchmark(SparseSpectrumGPBenchmark):
         self._data_gp = RBFGPVBenchmark(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=0.0,  # use noiseless data s.t. _get_task_by_index_without_noise works
             seed_task=seed_task,
             seed_x=seed_x,
             seed_noise=seed_noise,
@@ -186,7 +186,7 @@ class Matern52SparseSpectrumGPBenchmark(SparseSpectrumGPBenchmark):
         self._data_gp = Matern52GPBenchmark(
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
-            output_noise=output_noise,
+            output_noise=0.0,  # use noiseless data s.t. _get_task_by_index_without_noise works
             seed_task=seed_task,
             seed_x=seed_x,
             seed_noise=seed_noise,
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     ssgp = Matern52SparseSpectrumGPBenchmark(
         n_task=n_task,
         n_datapoints_per_task=16,
-        output_noise=0.0,
+        output_noise=0.1,
         seed_task=1234,
         seed_x=2234,
         seed_noise=3234,

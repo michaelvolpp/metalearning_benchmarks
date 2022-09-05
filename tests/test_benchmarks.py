@@ -226,7 +226,7 @@ def test_noise(all_benchmarks):
         )
 
         # check output_noise == 0 produces same data as _get_task_by_index_without_noise
-        assert (task_noise_seed_1_no_noise.y == task_noise_seed_1_no_noise.y).all()
+        assert (task_noise_seed_1_no_noise.y == task_noise_seed_1_noise_0.y).all()
         assert (task_noise_seed_1_no_noise.y == task_noise_seed_2_no_noise.y).all()
         # check that adding noise changes data compared to output_noise == 0
         assert (task_noise_seed_1_noise_0.y != task_noise_seed_1_noise_1.y).any()
