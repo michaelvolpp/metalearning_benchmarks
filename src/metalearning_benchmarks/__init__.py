@@ -10,6 +10,11 @@ from metalearning_benchmarks.gp_benchmark import (
     Matern52GPBenchmark,
     WeaklyPeriodicGPBenchmark,
 )
+from metalearning_benchmarks.ssgp_benchmark import (
+    RBFSparseSpectrumGPBenchmark,
+    RBFSparseSpectrumGPVBenchmark,
+    Matern52SparseSpectrumGPBenchmark,
+)
 from metalearning_benchmarks.polynomial_benchmark import (
     PolynomialDeg0,
     PolynomialDeg1,

@@ -31,6 +31,8 @@ class ParametricBenchmark(MetaLearningBenchmark):
             seed_x=seed_x,
             seed_noise=seed_noise,
         )
+
+        # define parameters and inputs
         self.params = (
             self.rng_task.rand(n_task, self.d_param)
             * (self.param_bounds[:, 1] - self.param_bounds[:, 0])
@@ -41,6 +43,9 @@ class ParametricBenchmark(MetaLearningBenchmark):
             * (self.x_bounds[:, 1] - self.x_bounds[:, 0])
             + self.x_bounds[:, 0]
         )
+
+        # compute the outputs
+        self._pre_call_hook() # if sth has to be done before __call__
         self.y = np.zeros((self.x.shape[0], self.x.shape[1], self.d_y))
         for i in tqdm(range(self.n_task), desc="Generating tasks"):
             self.y[i] = self(param=self.params[i], x=self.x[i])
@@ -78,6 +83,9 @@ class ParametricBenchmark(MetaLearningBenchmark):
         y : (..., d_y)
         """
         pass
+
+    def _pre_call_hook(self):
+        pass # can be overwritten if there is sth todo before __call__ is called
 
     def _get_task_by_index_without_noise(self, task_index: int):
         return MetaLearningTask(
