@@ -5,8 +5,9 @@ from metalearning_benchmarks.parametric_benchmark import (
     ObjectiveFunctionBenchmark,
 )
 from metalearning_benchmarks.gp_benchmark import (
-    Matern52GPBenchmark,
     RBFGPBenchmark,
+    RBFGPVBenchmark,
+    Matern52GPBenchmark,
     WeaklyPeriodicGPBenchmark,
 )
 from metalearning_benchmarks.polynomial_benchmark import (
@@ -45,6 +46,7 @@ benchmark_dict = {
     "Quadratic3D": Quadratic3D,
     "Matern52GPBenchmark": Matern52GPBenchmark,
     "RBFGPBenchmark": RBFGPBenchmark,
+    "RBFGPVBenchmark": RBFGPVBenchmark,
     "WeaklyPeriodicGPBenchmark": WeaklyPeriodicGPBenchmark,
     "FreePointMassFuruta": FreePointMassFurutaBenchmark,
     "Forrester1D": Forrester1D,
