@@ -1,7 +1,7 @@
 import pytest
 
 from metalearning_benchmarks import benchmark_dict
-from metalearning_benchmarks import MetaLearningTask, ParametricBenchmark
+from metalearning_benchmarks import MetaLearningTask, ParametricBenchmark, ImageCompletionBenchmark
 import numpy as np
 
 
@@ -20,6 +20,10 @@ def test_static_attributes(all_benchmarks):
         if issubclass(bm, ParametricBenchmark):
             assert isinstance(bm.d_param, int) 
         assert isinstance(bm.is_dynamical_system, bool)
+        if issubclass(bm, ImageCompletionBenchmark):
+            assert isinstance(bm.n_px_x1, int)
+            assert isinstance(bm.n_px_x2, int)
+            assert isinstance(bm.n_images_total, int)
 
 
 def test_shapes(all_benchmarks):

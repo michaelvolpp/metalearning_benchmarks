@@ -4,6 +4,7 @@ from metalearning_benchmarks.parametric_benchmark import (
     ParametricBenchmark,
     ObjectiveFunctionBenchmark,
 )
+from metalearning_benchmarks.image_completion_benchmark import ImageCompletionBenchmark
 from metalearning_benchmarks.gp_benchmark import (
     RBFGPBenchmark,
     RBFGPVBenchmark,
@@ -36,6 +37,7 @@ from metalearning_benchmarks.furuta_benchmark import FreePointMassFurutaBenchmar
 from metalearning_benchmarks.forrester1d_benchmark import Forrester1D
 from metalearning_benchmarks.branin2d_benchmark import Branin2D 
 from metalearning_benchmarks.hartmann3d_benchmark import Hartmann3D 
+from metalearning_benchmarks.mnist_benchmark import MNISTBenchmark
 
 benchmark_dict = {
     "PolynomialDeg0": PolynomialDeg0,
@@ -62,4 +64,5 @@ benchmark_dict = {
     "Forrester1D": Forrester1D,
     "Branin2D": Branin2D,
     "Hartmann3D": Hartmann3D,
+    "MNISTBenchmark": MNISTBenchmark,
 }
