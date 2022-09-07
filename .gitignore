@@ -144,3 +144,4 @@ benchmarks_old/
 .vscode/settings.json
 .DS_Store
 wandb/
+mnist/
