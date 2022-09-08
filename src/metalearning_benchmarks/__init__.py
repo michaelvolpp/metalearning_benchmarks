@@ -35,9 +35,12 @@ from metalearning_benchmarks.affine1d_benchmark import Affine1D
 from metalearning_benchmarks.line_sine1d_benchmark import LineSine1D
 from metalearning_benchmarks.furuta_benchmark import FreePointMassFurutaBenchmark
 from metalearning_benchmarks.forrester1d_benchmark import Forrester1D
-from metalearning_benchmarks.branin2d_benchmark import Branin2D 
-from metalearning_benchmarks.hartmann3d_benchmark import Hartmann3D 
-from metalearning_benchmarks.mnist_benchmark import MNISTBenchmark
+from metalearning_benchmarks.branin2d_benchmark import Branin2D
+from metalearning_benchmarks.hartmann3d_benchmark import Hartmann3D
+from metalearning_benchmarks.mnist_benchmark import (
+    MNIST_TrainBenchmark,
+    MNIST_TestBenchmark,
+)
 
 benchmark_dict = {
     "PolynomialDeg0": PolynomialDeg0,
@@ -64,5 +67,6 @@ benchmark_dict = {
     "Forrester1D": Forrester1D,
     "Branin2D": Branin2D,
     "Hartmann3D": Hartmann3D,
-    "MNISTBenchmark": MNISTBenchmark,
+    "MNIST_TrainBenchmark": MNIST_TrainBenchmark,
+    "MNIST_TestBenchmark": MNIST_TestBenchmark,
 }
