@@ -151,6 +151,44 @@ class RBFGPVBenchmark(GPBenchmark):
         return kernel_val
 
 
+class RBFGPV2Benchmark(GPBenchmark):
+    """
+    RBFGP with varying hyperparameters.
+    """
+
+    d_x = 1
+    d_y = 1
+    d_hyperparam = 2
+    lengthscale_bounds = np.array([0.5, 1.0])
+    signal_scale_bounds = np.array([0.5, 1.0])
+    hyperparam_bounds = np.array([lengthscale_bounds, signal_scale_bounds])
+
+    def __init__(
+        self, n_task, n_datapoints_per_task, output_noise, seed_task, seed_x, seed_noise
+    ):
+        super().__init__(
+            n_task,
+            n_datapoints_per_task,
+            output_noise,
+            seed_task,
+            seed_x,
+            seed_noise,
+        )
+
+    def _generate_hyperparams(self):
+        return (
+            self.rng_task.rand(self.n_task, self.d_hyperparam)
+            * (self.hyperparam_bounds[:, 1] - self.hyperparam_bounds[:, 0])
+            + self.hyperparam_bounds[:, 0]
+        )
+
+    def kernel(self, task_id, distances):
+        lengthscale = self._hyperparams[task_id, 0]
+        signal_var = self._hyperparams[task_id, 1] ** 2
+        kernel_val = signal_var * np.exp(-1 / 2 * distances**2 / lengthscale**2)
+        return kernel_val
+
+
 class Matern52GPBenchmark(GPBenchmark):
     d_x = 1
     d_y = 1

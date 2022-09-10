@@ -8,12 +8,14 @@ from metalearning_benchmarks.image_completion_benchmark import ImageCompletionBe
 from metalearning_benchmarks.gp_benchmark import (
     RBFGPBenchmark,
     RBFGPVBenchmark,
+    RBFGPV2Benchmark,
     Matern52GPBenchmark,
     WeaklyPeriodicGPBenchmark,
 )
 from metalearning_benchmarks.ssgp_benchmark import (
     RBFSparseSpectrumGPBenchmark,
     RBFSparseSpectrumGPVBenchmark,
+    RBFSparseSpectrumGPV2Benchmark,
     Matern52SparseSpectrumGPBenchmark,
 )
 from metalearning_benchmarks.polynomial_benchmark import (
@@ -58,10 +60,12 @@ benchmark_dict = {
     "Quadratic3D": Quadratic3D,
     "RBFGPBenchmark": RBFGPBenchmark,
     "RBFGPVBenchmark": RBFGPVBenchmark,
+    "RBFGPV2Benchmark": RBFGPV2Benchmark,
     "Matern52GPBenchmark": Matern52GPBenchmark,
     "WeaklyPeriodicGPBenchmark": WeaklyPeriodicGPBenchmark,
     "RBFSSGPBenchmark": RBFSparseSpectrumGPBenchmark,
     "RBFSSGPVBenchmark": RBFSparseSpectrumGPVBenchmark,
+    "RBFSSGPV2Benchmark": RBFSparseSpectrumGPV2Benchmark,
     "Matern52SSGPBenchmark": Matern52SparseSpectrumGPBenchmark,
     "FreePointMassFuruta": FreePointMassFurutaBenchmark,
     "Forrester1D": Forrester1D,

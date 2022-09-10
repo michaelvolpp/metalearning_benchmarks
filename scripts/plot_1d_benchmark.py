@@ -29,7 +29,7 @@ def plot_benchmark(benchmarks: List[MetaLearningBenchmark]):
 
 
 if __name__ == "__main__":
-    n_task = 25
+    n_task = 8
     n_datapoints_per_task = 128
     benchmarks = []
     benchmarks.append(
@@ -44,6 +44,36 @@ if __name__ == "__main__":
     )
     benchmarks.append(
         bm_dict["RBFGPVBenchmark"](
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=0.1,
+            seed_noise=1234,
+            seed_task=2234,
+            seed_x=3234,
+        )
+    )
+    benchmarks.append(
+        bm_dict["RBFGPV2Benchmark"](
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=0.1,
+            seed_noise=1234,
+            seed_task=2234,
+            seed_x=3234,
+        )
+    )
+    benchmarks.append(
+        bm_dict["RBFSSGPVBenchmark"](
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=0.1,
+            seed_noise=1234,
+            seed_task=2234,
+            seed_x=3234,
+        )
+    )
+    benchmarks.append(
+        bm_dict["RBFSSGPV2Benchmark"](
             n_task=n_task,
             n_datapoints_per_task=n_datapoints_per_task,
             output_noise=0.1,

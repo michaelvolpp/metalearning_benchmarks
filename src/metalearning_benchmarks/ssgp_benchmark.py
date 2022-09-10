@@ -6,6 +6,7 @@ import numpy as np
 from metalearning_benchmarks import (
     RBFGPBenchmark,
     RBFGPVBenchmark,
+    RBFGPV2Benchmark,
     Matern52GPBenchmark,
     ObjectiveFunctionBenchmark,
 )
@@ -172,6 +173,47 @@ class RBFSparseSpectrumGPVBenchmark(SparseSpectrumGPBenchmark):
         )
         return phi_handle
 
+class RBFSparseSpectrumGPV2Benchmark(SparseSpectrumGPBenchmark):
+    d_x = RBFGPV2Benchmark.d_x
+    d_y = RBFGPV2Benchmark.d_y
+    x_bounds = RBFGPV2Benchmark.x_bounds
+
+    def __init__(
+        self, n_task, n_datapoints_per_task, output_noise, seed_task, seed_x, seed_noise
+    ):
+        self._data_gp = RBFGPV2Benchmark(
+            n_task=n_task,
+            n_datapoints_per_task=n_datapoints_per_task,
+            output_noise=0.0,  # use noiseless data s.t. _get_task_by_index_without_noise works
+            seed_task=seed_task,
+            seed_x=seed_x,
+            seed_noise=seed_noise,
+        )
+        super().__init__(
+            n_task,
+            n_datapoints_per_task,
+            output_noise,
+            seed_task,
+            seed_x,
+            seed_noise,
+        )
+
+    @property
+    def _data_generating_gp(self):
+        return self._data_gp
+
+    def _compute_phi_handle(self, task_id):
+        """
+        Compute a new phi handle.
+        """
+        lengthscale, signal_scale = self._data_generating_gp._hyperparams[task_id]
+        signal_var = signal_scale**2
+        w = self.rng_task.randn(self.n_features, self.d_x) / lengthscale
+        b = self.rng_task.uniform(0, 2 * np.pi, size=self.n_features)
+        phi_handle = lambda x: np.sqrt(2 * signal_var / self.n_features) * np.cos(
+            x @ w.T + b
+        )
+        return phi_handle
 
 class Matern52SparseSpectrumGPBenchmark(SparseSpectrumGPBenchmark):
     d_x = Matern52GPBenchmark.d_x
